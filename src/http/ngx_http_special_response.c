@@ -19,16 +19,12 @@ static ngx_int_t ngx_http_send_refresh(ngx_http_request_t *r);
 
 
 static u_char ngx_http_error_full_tail[] =
-"<hr><center>" NGINX_VER "</center>" CRLF
-"</body>" CRLF
-"</html>" CRLF
+"" CRLF
 ;
 
 
 static u_char ngx_http_error_tail[] =
-"<hr><center>nginx</center>" CRLF
-"</body>" CRLF
-"</html>" CRLF
+"" CRLF
 ;
 
 
@@ -51,250 +47,452 @@ static u_char ngx_http_msie_refresh_tail[] =
 
 
 static char ngx_http_error_301_page[] =
-"<html>" CRLF
-"<head><title>301 Moved Permanently</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>301 Moved Permanently</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>301 Moved Permanently</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>301</h1>" CRLF
+"  <h2>Moved Permanently</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_302_page[] =
-"<html>" CRLF
-"<head><title>302 Found</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>302 Found</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>302 Found</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>302</h1>" CRLF
+"  <h2>Found</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_303_page[] =
-"<html>" CRLF
-"<head><title>303 See Other</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>303 See Other</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>303 See Other</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>303</h1>" CRLF
+"  <h2>See Other</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_307_page[] =
-"<html>" CRLF
-"<head><title>307 Temporary Redirect</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>307 Temporary Redirect</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>307 Temporary Redirect</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>307</h1>" CRLF
+"  <h2>Temporary Redirect</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_400_page[] =
-"<html>" CRLF
-"<head><title>400 Bad Request</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>400 Bad Request</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>400 Bad Request</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>400</h1>" CRLF
+"  <h2>Bad Request</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_401_page[] =
-"<html>" CRLF
-"<head><title>401 Authorization Required</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>401 Authorization Required</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>401 Authorization Required</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>401</h1>" CRLF
+"  <h2>Authorization Required</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_402_page[] =
-"<html>" CRLF
-"<head><title>402 Payment Required</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>402 Payment Required</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>402 Payment Required</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>402</h1>" CRLF
+"  <h2>Payment Required</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_403_page[] =
-"<html>" CRLF
-"<head><title>403 Forbidden</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>403 Forbidden</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>403 Forbidden</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>403</h1>" CRLF
+"  <h2>Forbidden</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_404_page[] =
-"<html>" CRLF
-"<head><title>404 Not Found</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>404 Not Found</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>404 Not Found</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>404</h1>" CRLF
+"  <h2>Not Found</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_405_page[] =
-"<html>" CRLF
-"<head><title>405 Not Allowed</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>405 Not Allowed</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>405 Not Allowed</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>405</h1>" CRLF
+"  <h2>Not Allowed</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_406_page[] =
-"<html>" CRLF
-"<head><title>406 Not Acceptable</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>406 Not Acceptable</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>406 Not Acceptable</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>406</h1>" CRLF
+"  <h2>Not Acceptable</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_408_page[] =
-"<html>" CRLF
-"<head><title>408 Request Time-out</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>408 Request Time-out</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>408 Request Time-out</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>408</h1>" CRLF
+"  <h2>Request Time-out</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_409_page[] =
-"<html>" CRLF
-"<head><title>409 Conflict</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>409 Conflict</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>409 Conflict</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>409</h1>" CRLF
+"  <h2>Conflict</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_410_page[] =
-"<html>" CRLF
-"<head><title>410 Gone</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>410 Gone</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>410 Gone</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>410</h1>" CRLF
+"  <h2>Gone</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_411_page[] =
-"<html>" CRLF
-"<head><title>411 Length Required</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>411 Length Required</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>411 Length Required</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>411</h1>" CRLF
+"  <h2>Length Required</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_412_page[] =
-"<html>" CRLF
-"<head><title>412 Precondition Failed</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>412 Precondition Failed</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>412 Precondition Failed</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>412</h1>" CRLF
+"  <h2>Precondition Failed</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_413_page[] =
-"<html>" CRLF
-"<head><title>413 Request Entity Too Large</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>413 Request Entity Too Large</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>413 Request Entity Too Large</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>413</h1>" CRLF
+"  <h2>Request Entity Too Large</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_414_page[] =
-"<html>" CRLF
-"<head><title>414 Request-URI Too Large</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>414 Request-URI Too Large</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>414 Request-URI Too Large</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>414</h1>" CRLF
+"  <h2>Request-URI Too Large</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_415_page[] =
-"<html>" CRLF
-"<head><title>415 Unsupported Media Type</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>415 Unsupported Media Type</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>415 Unsupported Media Type</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>415</h1>" CRLF
+"  <h2>Unsupported Media Type</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_416_page[] =
-"<html>" CRLF
-"<head><title>416 Requested Range Not Satisfiable</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>416 Requested Range Not Satisfiable</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>416 Requested Range Not Satisfiable</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>416</h1>" CRLF
+"  <h2>Requested Range Not Satisfiable</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_494_page[] =
-"<html>" CRLF
-"<head><title>400 Request Header Or Cookie Too Large</title></head>"
-CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>400 Bad Request</h1></center>" CRLF
-"<center>Request Header Or Cookie Too Large</center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>400 Request Header Or Cookie Too Large</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>400</h1>" CRLF
+"  <h2>Request Header Or Cookie Too Large</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_495_page[] =
-"<html>" CRLF
-"<head><title>400 The SSL certificate error</title></head>"
-CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>400 Bad Request</h1></center>" CRLF
-"<center>The SSL certificate error</center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>400 The SSL certificate error</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>400</h1>" CRLF
+"  <h2>The SSL certificate error</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_496_page[] =
-"<html>" CRLF
-"<head><title>400 No required SSL certificate was sent</title></head>"
-CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>400 Bad Request</h1></center>" CRLF
-"<center>No required SSL certificate was sent</center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>400 No required SSL certificate was sent</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>400</h1>" CRLF
+"  <h2>No required SSL certificate was sent</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_497_page[] =
-"<html>" CRLF
-"<head><title>400 The plain HTTP request was sent to HTTPS port</title></head>"
-CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>400 Bad Request</h1></center>" CRLF
-"<center>The plain HTTP request was sent to HTTPS port</center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>400 The plain HTTP request was sent to HTTPS port</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>400</h1>" CRLF
+"  <h2>The plain HTTP request was sent to HTTPS port</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_500_page[] =
-"<html>" CRLF
-"<head><title>500 Internal Server Error</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>500 Internal Server Error</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>500 Internal Server Error</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>500</h1>" CRLF
+"  <h2>Internal Server Error</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_501_page[] =
-"<html>" CRLF
-"<head><title>501 Not Implemented</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>501 Not Implemented</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>501 Not Implemented</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>501</h1>" CRLF
+"  <h2>Not Implemented</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_502_page[] =
-"<html>" CRLF
-"<head><title>502 Bad Gateway</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>502 Bad Gateway</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>502 Bad Gateway</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>502</h1>" CRLF
+"  <h2>Bad Gateway</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_503_page[] =
-"<html>" CRLF
-"<head><title>503 Service Temporarily Unavailable</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>503 Service Temporarily Unavailable</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>503 Service Temporarily Unavailable</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>503</h1>" CRLF
+"  <h2>Service Temporarily Unavailable</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_504_page[] =
-"<html>" CRLF
-"<head><title>504 Gateway Time-out</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>504 Gateway Time-out</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>504 Gateway Time-out</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>504</h1>" CRLF
+"  <h2>Gateway Time-out</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
 static char ngx_http_error_507_page[] =
-"<html>" CRLF
-"<head><title>507 Insufficient Storage</title></head>" CRLF
-"<body bgcolor=\"white\">" CRLF
-"<center><h1>507 Insufficient Storage</h1></center>" CRLF
+"<!doctype html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\"><meta name =\"viewport\" content=\"initial-scale=1.0,maximum-scale=1,user-scalable=no,minimal-ui\">" CRLF
+"<title>507 Insufficient Storage</title>" CRLF
+"<!--[if lt IE 9]>" CRLF
+"<script>(function(){if(!/*@cc_on!@*/0)return;var e=\"abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video\".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()</script>" CRLF
+"<![endif]-->" CRLF
+"<style>a{text-decoration:none}header h1{font-size:7em;text-align:center;margin:.67em 0 0;color:#333;text-transform:uppercase}header h2{font-size:1.5em;color:#333;text-align:center;text-transform:uppercase}section{margin:50px 0;text-transform:uppercase}section p{text-align:center;font-size:1.5em}section .back{color:#666;padding:8px 15px;border:1px #DDD solid;border-radius:3px}section .back:hover{border-color:#ccc}</style></head><body>" CRLF
+"<header>" CRLF
+"  <h1>507</h1>" CRLF
+"  <h2>Insufficient Storage</h2>" CRLF
+"</header>" CRLF
+"<section><p><a href=\"https://kotori.love/\" class=\"back\">Powered By Kotori</a></p></section></body></html>"
 ;
 
 
